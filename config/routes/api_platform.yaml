@@ -1,0 +1,16 @@
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /
+
+_api_api:
+    resource: '@ApiPlatformBundle/Resources/config/routing/api.xml'
+    prefix: /
+
+_api_docs:
+    resource: '@ApiPlatformBundle/Resources/config/routing/docs.xml'
+    prefix: /
+
+_api_contexts:
+    resource: '@ApiPlatformBundle/Resources/config/routing/jsonld.xml'
+    prefix: /

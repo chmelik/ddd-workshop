@@ -1,0 +1,24 @@
+parameters:
+    paths:
+        - ./src
+    layers:
+        - name: Product
+          collectors:
+            - type: directory
+              value: src/Product/.*
+        - name: Shared
+          collectors:
+            - type: directory
+              value: src/Shared/.*
+        - name: Vendors
+          collectors:
+            - { type: className, value: ^ApiPlatform\\ }
+            - { type: className, value: ^Symfony\\ }
+            - { type: className, value: ^Doctrine\\ }
+            - { type: className, value: ^Webmozart\\ }
+            - { type: className, value: ^Psr\\ }
+            - { type: className, value: ^MongoDB\\ }
+            - { type: className, value: ^Monolog\\ }
+    ruleset:
+        Product: [Shared, Vendors]
+        Shared: [Vendors]

@@ -1,0 +1,36 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    _instanceof:
+        App\Shared\Infrastructure\ApiPlatform\Extension\ExtensionInterface:
+            tags: [api_platform.extension]
+
+    App\Shared\Application\Command\CommandBusInterface:
+        class: App\Shared\Infrastructure\Symfony\Messenger\CommandBus
+
+    App\Shared\Application\Query\QueryBusInterface:
+        class: App\Shared\Infrastructure\Symfony\Messenger\QueryBus
+
+    App\Shared\Application\Event\EventBusInterface:
+        class: App\Shared\Infrastructure\Symfony\EventDispatcher\EventBus
+
+    #App\Shared\Application\Event\EventBusInterface:
+    #    class: App\Shared\Infrastructure\Symfony\Messenger\EventBus
+
+    # Infrastructure
+    App\Shared\Infrastructure\ApiPlatform\Extension\FilterExtension:
+        arguments:
+            $filterLocator: '@api_platform.filter_locator'
+    App\Shared\Infrastructure\ApiPlatform\Extension\PaginationExtension: ~
+    App\Shared\Infrastructure\ApiPlatform\Serializer\SerializerContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+        arguments:
+            - '@.inner'
+            - !tagged_iterator api_platform.extension
+
+    App\Shared\Infrastructure\Symfony\Command\:
+        resource: '../../src/Shared/Infrastructure/Symfony/Command/'
+
+    App\Shared\Infrastructure\Symfony\Messenger\:
+        resource: '../../src/Shared/Infrastructure/Symfony/Messenger/'

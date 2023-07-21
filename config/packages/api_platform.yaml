@@ -1,0 +1,23 @@
+api_platform:
+    title: 'Some API'
+    version: 0.0.0
+    mapping:
+        paths:
+            - '%kernel.project_dir%/src/Product/Infrastructure/ApiPlatform/Resource'
+    formats:
+        #json: ['application/json']
+        jsonld: ['application/ld+json']
+        jsonapi: ['application/vnd.api+json']
+        html: ['text/html']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: 3
+    exception_to_status:
+        # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
+        Symfony\Component\Serializer\Exception\ExceptionInterface: 400
+        ApiPlatform\Core\Exception\InvalidArgumentException: 400
+        ApiPlatform\Core\Exception\FilterValidationException: 400
+        Doctrine\ORM\OptimisticLockException: 409
+        Symfony\Component\Security\Core\Exception\LockedException: 406
+        #App\Exception\PasswordRequestExpiredException: 406

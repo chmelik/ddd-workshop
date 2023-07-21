@@ -1,0 +1,7 @@
+app:
+    iri_resource: 'Item not found for "%iri%".'
+user:
+    unique_email: 'The user with email "%email%" already exists.'
+    confirmation_token: 'The user with confirmation token "%token%" does not exist.'
+    password_request_non_expired: 'The password request with confirmation token "%token%" is expired.'
+    user_exists: 'The user with username "%username%" does not exist.'

@@ -1,0 +1,54 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    _instanceof:
+        App\Shared\Application\Command\CommandHandlerInterface:
+            tags: [{ name: 'messenger.message_handler', bus: 'command_bus' }]
+        App\Shared\Application\Query\QueryHandlerInterface:
+            tags: [{ name: 'messenger.message_handler', bus: 'query_bus' }]
+
+    App\Product\Domain\Repository\ProductRepositoryInterface:
+        class: App\Product\Infrastructure\Doctrine\Repository\ProductRepository
+    App\Product\Domain\Repository\MediaRepositoryInterface:
+        class: App\Product\Infrastructure\Doctrine\Repository\MediaRepository
+
+    App\Product\Domain\Factory\ProductFactoryInterface:
+        class: App\Product\Application\Factory\ProductFactory
+    App\Product\Domain\Factory\MediaFactoryInterface:
+        class: App\Product\Application\Factory\MediaFactory
+
+    App\Product\Application\Finder\ProductFinder: ~
+    App\Product\Application\Finder\MediaFinder: ~
+
+    App\Product\Application\Query\FindProductQueryHandler: ~
+    App\Product\Application\Query\FindProductsQueryHandler: ~
+    App\Product\Application\Query\FindRecentProductsQueryHandler: ~
+    App\Product\Application\Command\CreateProductCommandHandler: ~
+    App\Product\Application\Command\UpdateProductCommandHandler: ~
+    App\Product\Application\Command\DeleteProductCommandHandler: ~
+    App\Product\Application\Command\DiscountProductCommandHandler: ~
+
+    App\Product\Application\Query\FindMediaQueryHandler: ~
+    App\Product\Application\Query\FindMediasQueryHandler: ~
+    App\Product\Application\Command\CreateMediaCommandHandler: ~
+    App\Product\Application\Command\UpdateMediaCommandHandler: ~
+    App\Product\Application\Command\DeleteMediaCommandHandler: ~
+
+# Infrastructure
+    # ApiPlatform
+    App\Product\Infrastructure\ApiPlatform\:
+        resource: '../../src/Product/Infrastructure/ApiPlatform/'
+        exclude: '../../src/Product/Infrastructure/ApiPlatform/{Model,Resource}'
+
+    # Symfony
+    App\Product\Infrastructure\Symfony\EventSubscriber\:
+        resource: '../../src/Product/Infrastructure/Symfony/EventSubscriber/'
+
+when@dev:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+        App\Product\Infrastructure\Doctrine\DataFixtures\:
+            resource: '../../src/Product/Infrastructure/Doctrine/DataFixtures/'

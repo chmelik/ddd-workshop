@@ -1,0 +1,31 @@
+framework:
+    messenger:
+        default_bus: command_bus
+        buses:
+            command_bus:
+                middleware:
+                    - validation
+                    - doctrine_ping_connection
+                    #- doctrine_transaction
+            query_bus:
+                middleware:
+                    - doctrine_ping_connection
+            event_bus:
+                default_middleware: allow_no_handlers
+                middleware:
+                    - validation
+                    - doctrine_ping_connection
+                    #- doctrine_transaction
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        #failure_transport: failed
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            default_command: 'sync://'
+            product_event: 'sync://'
+            sync: 'sync://'
+        routing:
+            'App\Product\Infrastructure\Symfony\Messenger\Message\ProductCreatedEvent': product_event
+            'App\Product\Infrastructure\Symfony\Messenger\Message\ProductUpdatedEvent': product_event
+            'App\Product\Infrastructure\Symfony\Messenger\Message\ProductDeletedEvent': product_event

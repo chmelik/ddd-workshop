@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+    app_php:
+        volumes:
+            - ./:/app:delegated
+        environment:
+            APP_ENV: dev
+
+    app_database:
+        ports:
+            - '5432:5432'

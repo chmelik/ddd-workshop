@@ -1,0 +1,45 @@
+/.idea
+
+!/public
+/public/*
+!/public/index.php
+!/private
+/private/*
+!/private/.gitignore
+
+###> symfony/framework-bundle ###
+/public/bundles/
+/var/
+/vendor/
+/.env.local
+/.env.local.php
+/.env.*.local
+###< symfony/framework-bundle ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php_cs
+/.php_cs.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> qossmic/deptrac-shim ###
+/.deptrac_bc.cache
+/.deptrac_hexa.cache
+###< qossmic/deptrac-shim ###

@@ -1,0 +1,50 @@
+parameters:
+    paths:
+        - ./src/Product
+        - ./src/Shared
+    layers:
+        - name: Domain
+          collectors:
+            - type: directory
+              value: .+/Domain/.*
+        - name: Application
+          collectors:
+            - type: directory
+              value: .+/Application/.*
+        - name: Infrastructure
+          collectors:
+            - type: directory
+              value: .+/Infrastructure/.*
+        - name: Vendors
+          collectors:
+              - { type: className, value: ^ApiPlatform\\ }
+              - { type: className, value: ^Symfony\\(?!(Component\\Uid\\|Contracts\\)) }
+              - { type: className, value: ^Doctrine\\(?!(ORM\\Mapping|DBAL\\Types\\Types|Common\\Collections\\)) }
+              - { type: className, value: ^Webmozart\\(?!Assert\\Assert) }
+              - { type: className, value: ^Psr\\ }
+              - { type: className, value: ^MongoDB\\ }
+              - { type: className, value: ^Monolog\\ }
+        - name: Attributes
+          collectors:
+              - { type: className, value: ^Doctrine\\ORM\\Mapping }
+        - name: Helpers
+          collectors:
+              - { type: className, value: ^Symfony\\Component\\Uid\\ }
+              - { type: className, value: ^Symfony\\Contracts\\ }
+              - { type: className, value: ^Doctrine\\DBAL\\Types\\Types }
+              - { type: className, value: ^Doctrine\\Common\\Collections\\ }
+              - { type: className, value: ^Webmozart\\Assert\\Assert }
+    ruleset:
+        Domain:
+            - Helpers
+            - Attributes
+        Application:
+            - Domain
+            - Helpers
+            - Attributes
+        Infrastructure:
+            - Domain
+            - Application
+            - Helpers
+            - Attributes
+            - Vendors

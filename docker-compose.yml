@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+    app_php:
+        build:
+            target: app_php
+        restart: unless-stopped
+        depends_on:
+            - app_database
+            - app_redis
+
+    app_webserver:
+        build:
+            target: nginx
+        depends_on:
+            - app_php
+        environment:
+            APP_PHP_HOST: app_php
+
+    app_database:
+        image: postgres:${POSTGRES_VERSION:-14.5}-alpine
+        restart: unless-stopped
+        volumes:
+            - app_database:/var/lib/postgresql/data:rw
+        environment:
+            POSTGRES_USER: ${DOCKER_DATABASE_USER}
+            POSTGRES_PASSWORD: ${DOCKER_DATABASE_PASSWORD}
+            POSTGRES_DB: ${DOCKER_DATABASE_NAME}
+
+    app_redis:
+        image: redis:6-alpine
+        restart: unless-stopped
+
+
+    api_gateway:
+        build:
+            target: api_gateway
+        volumes:
+            - ./docker/ssl:/etc/ssl:ro
+        depends_on:
+            - app_webserver
+        ports:
+            - '443:443'
+
+volumes:
+    app_database:
+        name: ${COMPOSE_PROJECT_NAME}_app_database
